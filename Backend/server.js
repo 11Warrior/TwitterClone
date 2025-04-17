@@ -1,6 +1,7 @@
 import express from 'express'
 import authRoutes from './routes/auth.routes.js'
 import userRouter from './routes/user.routes.js'
+import postRoutes from './routes/post.routes.js'
 import  {config}  from 'dotenv'
 import { connectDB } from './DB/connectDB.js';
 import cookieParser from 'cookie-parser';
@@ -15,6 +16,8 @@ app.use(cookieParser())
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRouter)
+app.use("/api/posts", postRoutes)
+
 app.get('/', (req, res) => {
   res.send('Server is up');
 })

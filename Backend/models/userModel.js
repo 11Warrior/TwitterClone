@@ -45,10 +45,17 @@ const userSchema = new mongoose.Schema({
   bio: {
     type: String,
     default: "Edit your bio"
-  }
+  },
+  likedPosts :[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post',
+      default: []
+    }
+  ]
 
 },{timestamps: true})
 
-const User = mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User 
