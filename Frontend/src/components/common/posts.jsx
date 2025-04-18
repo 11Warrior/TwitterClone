@@ -1,23 +1,50 @@
 import Post from "./Post";
 import PostSkeleton from "../skeletons/PostSkeleton";
-import { POSTS } from "../../utils/db/dummy";
+// import { POSTS } from "../../utils/db/dummy";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
-const Posts = () => {
-	const isLoading = false;
+
+const Posts = ({feedType}) => {
+
+	const feedEndPoint = () => {
+		if (feedType === "following") {
+			return "/api/posts/postsOfFollowed"
+		}
+		return "/api/posts/allPosts"
+	}
+
+	const {data: posts, isLoading, refetch, isRefetching} = useQuery({
+		queryKey: ["posts"],
+		queryFn: async () => {
+			try {
+				const res = await fetch(feedEndPoint())
+				const data = await res.json();
+				return data;
+			
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	})
+
+	useEffect(() => {
+		refetch()
+	}, [feedType, refetch])
 
 	return (
 		<>
-			{isLoading && (
+			{(isLoading || isRefetching) && (
 				<div className='flex flex-col justify-center'>
 					<PostSkeleton />
 					<PostSkeleton />
 					<PostSkeleton />
 				</div>
 			)}
-			{!isLoading && POSTS?.length === 0 && <p className='text-center my-4'>No posts in this tab. Switch 👻</p>}
-			{!isLoading && POSTS && (
+			{!isLoading && !isRefetching && posts?.length === 0 && <p className='text-center my-4'>No posts in this tab. Switch 👻</p>}
+			{!isLoading && !isRefetching && posts && (
 				<div>
-					{POSTS.map((post) => (
+					{posts.map((post) => (
 						<Post key={post._id} post={post} />
 					))}
 				</div>
