@@ -25,7 +25,6 @@ function App() {
 				if (!res.ok) {
 					throw new Error(user.error || "Something went wrong");
 				}
-				console.log("authUser is here:", user);
 				return user;
 			} catch (error) {
 				throw new Error(error);

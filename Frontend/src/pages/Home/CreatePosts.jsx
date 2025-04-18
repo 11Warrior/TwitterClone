@@ -2,6 +2,7 @@ import { CiImageOn } from "react-icons/ci";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { useRef, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
+import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const CreatePosts = () => {
 	const [text, setText] = useState("");
@@ -12,13 +13,33 @@ const CreatePosts = () => {
 	const isPending = false;
 	const isError = false;
 
-	const data = {
-		profileImg: "/avatars/boy1.png",
-	};
+	const {data} = useQuery({queryKey: ["authUser"]})
 
-	const handleSubmit = (e) => {
+	//to updat the base query cache
+	const queryClient = useQueryClient()
+
+	const postFormData = {
+		text,
+		image: img
+	}
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		alert("Post created successfully");
+		try {
+			const res = await fetch('/api/posts/create', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include', 
+				body: JSON.stringify(postFormData),
+			});
+			queryClient.invalidateQueries({queryKey: ['posts']})
+		} catch (error) {
+			console.log(error)
+		}
+		setText("")
+		setImg(null)
 	};
 
 	const handleImgChange = (e) => {

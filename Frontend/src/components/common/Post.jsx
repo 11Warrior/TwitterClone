@@ -3,21 +3,36 @@ import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
+
+	const queryClient = useQueryClient();
+
+	const {data: authUser} = useQuery({queryKey: ["authUser"]})
 	const postOwner = post.user;
 	const isLiked = false;
 
-	const isMyPost = true;
+	const isMyPost = (authUser._id === post.user._id);
 
 	const formattedDate = "1h";
 
 	const isCommenting = false;
 
-	const handleDeletePost = () => {};
+	const handleDeletePost = async () => {
+		try {
+			await fetch(`/api/posts/delete/${post._id}`, {
+				method: "POST"
+			})
+			queryClient.invalidateQueries({queryKey: ['posts']})
+
+		} catch (error) {
+			console.log(error)
+		}
+	};
 
 	const handlePostComment = (e) => {
 		e.preventDefault();
@@ -51,9 +66,9 @@ const Post = ({ post }) => {
 					</div>
 					<div className='flex flex-col gap-3 overflow-hidden'>
 						<span>{post.text}</span>
-						{post.img && (
+						{post.image && (
 							<img
-								src={post.img}
+								src={post.image}
 								className='h-80 object-contain rounded-lg border border-gray-700'
 								alt=''
 							/>

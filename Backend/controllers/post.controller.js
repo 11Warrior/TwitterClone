@@ -2,6 +2,7 @@ import postModel from "../models/postmodel.js";
 import {v2 as cloudinary} from "cloudinary";
 import User from "../models/userModel.js";
 import NotificationModel from "../models/notify.js";
+import mongoose from "mongoose";
 
 export const createPost = async (req, res) => {
   try {
@@ -35,6 +36,7 @@ export const createPost = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const post = await postModel.findById(req.params.id)
+    console.log(post)
     if (!post) return res.status(404).json({message: "Post not found"})
     const userId = req.user._id.toString()
 
