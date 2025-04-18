@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
 	const queryClient = useQueryClient();
@@ -56,9 +57,47 @@ const Post = ({ post }) => {
 			console.log(error);
 		}
 	};
-
-	const handlePostComment = (e) => {
-		e.preventDefault();
+	const { mutate: commentFunction, isPending: isCommenting } = useMutation({
+		mutationFn: async () => {
+			const res = await fetch(`/api/posts/comment/${post._id}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				credentials: "include",
+				body: JSON.stringify({ text: comment }),
+			});
+			if (!res.ok) {
+				throw new Error("Failed to post comment");
+			}
+			const data = await res.json(); // should return new comment
+			return data;
+		},
+		onSuccess: (newComment) => {
+			queryClient.setQueryData(["posts"], (oldPosts) => {
+				if (!oldPosts) return [];
+	
+				return oldPosts.map((p) => {
+					if (p._id === post._id) {
+						return {
+							...p,
+							comments: [...p.comments, newComment],
+						};
+					}
+					return p;
+				});
+			});
+	
+			setComment(""); // Clear textarea
+	
+			const modal = document.getElementById("comments_modal" + post._id);
+			if (modal?.close) modal.close(); // Close modal
+		},
+	});
+	
+	const handlePostComment = async (e) => {
+		e.preventDefault()
+		commentFunction();
 	};
 
 	return (
@@ -142,6 +181,57 @@ const Post = ({ post }) => {
 					</div>
 				</div>
 			</div>
+			{/* Comments Modal */}
+			<dialog id={`comments_modal${post._id}`} className='modal border-none outline-none'>
+				<div className='modal-box rounded border border-gray-600'>
+					<h3 className='font-bold text-lg mb-4'>COMMENTS</h3>
+
+					<div className='flex flex-col gap-3 max-h-60 overflow-auto'>
+						{post.comments.length === 0 && (
+							<p className='text-sm text-slate-500'>No comments yet 🤔 Be the first one 😉</p>
+						)}
+
+						{post.comments.map((comment) => (
+							<div key={comment._id} className='flex gap-2 items-start'>
+								<div className='avatar'>
+									<div className='w-8 rounded-full'>
+										<img src={comment.user.profileImg || "/avatar-placeholder.png"} />
+									</div>
+								</div>
+								<div className='flex flex-col'>
+									<div className='flex items-center gap-1'>
+										<span className='font-bold'>{comment.user.fullName}</span>
+										<span className='text-gray-700 text-sm'>@{comment.user.userName}</span>
+									</div>
+									<div className='text-sm'>{comment.text}</div>
+								</div>
+							</div>
+						))}
+					</div>
+			{/* Comment Form */}
+			<form
+				className='flex gap-2 items-center mt-4 border-t border-gray-600 pt-2'
+				onSubmit={handlePostComment}
+			>
+				<textarea
+					className='textarea w-full p-1 rounded text-md resize-none border focus:outline-none border-gray-800'
+					placeholder='Add a comment...' name="comment"
+					value={comment}
+					onChange={(e) => setComment(e.target.value)}
+				/>
+				<button
+					className='btn btn-primary rounded-full btn-sm text-white px-4'
+					type='submit'
+				>
+					Post
+				</button>
+			</form>
+		</div>
+		<form method='dialog' className='modal-backdrop'>
+			<button className='outline-none'>close</button>
+		</form>
+	</dialog>
+
 		</div>
 	);
 };

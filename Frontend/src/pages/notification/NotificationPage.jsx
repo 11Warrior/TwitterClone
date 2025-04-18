@@ -1,36 +1,40 @@
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
-
+import {useQuery, useQueryClient} from '@tanstack/react-query'
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 
 const NotificationPage = () => {
-	const isLoading = false;
-	const notifications = [
-		{
-			_id: "1",
-			from: {
-				_id: "1",
-				username: "johndoe",
-				profileImg: "/avatars/boy2.png",
-			},
-			type: "follow",
-		},
-		{
-			_id: "2",
-			from: {
-				_id: "2",
-				username: "janedoe",
-				profileImg: "/avatars/girl1.png",
-			},
-			type: "like",
-		},
-	];
+	const {data: notifications, isLoading} = useQuery({
+		queryKey: ['notifications'],
+		queryFn: async () => {
+			try {
+				const res = await fetch('/api/notifications')//get method
+				const data = await res.json()
+				return data
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	})
 
-	const deleteNotifications = () => {
-		alert("All notifications deleted");
-	};
+	const queryClient = useQueryClient()
+
+
+	async function deleteNotifications() {
+		try {
+			const res = await fetch('/api/notifications', {
+				method: "DELETE"
+			})
+			const data = await res.json();
+			queryClient.invalidateQueries({queryKey: ['notifications']})
+			return data;
+
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	return (
 		<>
@@ -62,14 +66,14 @@ const NotificationPage = () => {
 						<div className='flex gap-2 p-4'>
 							{notification.type === "follow" && <FaUser className='w-7 h-7 text-primary' />}
 							{notification.type === "like" && <FaHeart className='w-7 h-7 text-red-500' />}
-							<Link to={`/profile/${notification.from.username}`}>
+							<Link to={`/profile/${notification.from.userName}`}>
 								<div className='avatar'>
 									<div className='w-8 rounded-full'>
 										<img src={notification.from.profileImg || "/avatar-placeholder.png"} />
 									</div>
 								</div>
 								<div className='flex gap-1'>
-									<span className='font-bold'>@{notification.from.username}</span>{" "}
+									<span className='font-bold'>@{notification.from.userName}</span>{" "}
 									{notification.type === "follow" ? "followed you" : "liked your post"}
 								</div>
 							</Link>
