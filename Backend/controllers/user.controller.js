@@ -19,7 +19,6 @@ export const getUserProfile = async (req, res) => {
 
 
 export const followUnfollow = async (req, res) => {
-  console.log(req.params)
   try {
 
     const {id} = req.params
