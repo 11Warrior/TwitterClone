@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
-export const useFollow = () => {
+export  const useFollow = () => {
   const queryClient = useQueryClient();
   const {mutate: followUnfollow, isPending, isError} = useMutation({
     mutationFn: async (userId) => {

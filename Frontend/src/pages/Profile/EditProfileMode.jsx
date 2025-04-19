@@ -1,9 +1,10 @@
 import { useState } from "react";
+import useUpdateProfile from "../../../hooks/useUpdateProfile";
 
 const EditProfileModal = () => {
 	const [formData, setFormData] = useState({
 		fullName: "",
-		username: "",
+		userName: "",
 		email: "",
 		bio: "",
 		link: "",
@@ -14,6 +15,8 @@ const EditProfileModal = () => {
 	const handleInputChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
+
+	const {updateProfile} = useUpdateProfile()
 
 	return (
 		<>
@@ -30,7 +33,7 @@ const EditProfileModal = () => {
 						className='flex flex-col gap-4'
 						onSubmit={(e) => {
 							e.preventDefault();
-							alert("Profile updated successfully");
+							updateProfile(formData)
 						}}
 					>
 						<div className='flex flex-wrap gap-2'>
@@ -46,8 +49,8 @@ const EditProfileModal = () => {
 								type='text'
 								placeholder='Username'
 								className='flex-1 input border border-gray-700 rounded p-2 input-md'
-								value={formData.username}
-								name='username'
+								value={formData.userName}
+								name='userName'
 								onChange={handleInputChange}
 							/>
 						</div>
