@@ -65,19 +65,19 @@ const ProfilePage = () => {
 		refetch();
 	}, [userName, refetch]);
 
+	// const queryClient = useQueryClient()
 	
-	const {data: myPosts = []} = useQuery({
-		try {
-			const res = await fetch(`/api/posts/userPosts/${authUser.userName}`, {
-				method: "POST",
-			})
-			const data = await res.json()
-
-		} catch (error) {
-			console.log(error)
+	const { data: myPosts = [], isLoading: isPostLoading } = useQuery({
+		queryKey: ['userPosts', user?.userName],
+		enabled: !!user?.userName, 
+		queryFn: async () => {
+			const res = await fetch(`/api/posts/userPosts/${user.userName}`);
+			if (!res.ok) throw new Error("Failed to fetch posts");
+			const data = await res.json();
+			return data;
 		}
-	})
-
+	});
+	
 	return (
 		<>
 			<div className='flex-[4_4_0]  border-r border-gray-700 min-h-screen '>
@@ -93,7 +93,7 @@ const ProfilePage = () => {
 								</Link>
 								<div className='flex flex-col'>
 									<p className='font-bold text-lg'>{user?.fullName}</p>
-									<span className='text-sm text-slate-500'>{myPosts?.length} posts</span>
+									<span className='text-sm text-slate-500'>{ isPostLoading ? "Loading..." : myPosts?.length} posts</span>
 								</div>
 							</div>
 							{/* COVER IMG */}
