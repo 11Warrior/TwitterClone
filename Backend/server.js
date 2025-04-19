@@ -20,6 +20,10 @@ import path from 'path';
 const app = express()
 dotenv.config()
 
+app.use(cors({
+  origin: process.env.CLIENT_URL, // MUST match your deployed frontend
+  credentials: true
+}));
 app.use(express.json({limit: "10mb"}));
 app.use(express.urlencoded({extended : true}))
 app.use(cookieParser())
