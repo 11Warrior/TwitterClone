@@ -1,3 +1,8 @@
+import Post from "./Post";
+import PostSkeleton from "../skeletons/PostSkeleton";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+
 const Posts = ({ feedType }) => {
   const feedEndPoint = () => {
     if (feedType === "following") {
