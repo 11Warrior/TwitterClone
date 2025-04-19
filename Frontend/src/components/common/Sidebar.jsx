@@ -14,7 +14,8 @@ const Sidebar = () => {
 	const {mutate : logoutMutate, isPending, isError, error} = useMutation({
 		mutationFn: async () => {
 			const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/logout`, {
-				method: "POST"
+				method: "POST",
+				credentials: "include"
 			})
 			const data = await res.json();
 			if (!res.ok) {
