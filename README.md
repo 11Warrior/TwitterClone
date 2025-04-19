@@ -2,6 +2,8 @@
 🐦 Twitter Clone - MERN Stack
 A full-stack Twitter clone application built with the MERN stack (MongoDB, Express, React, Node.js) featuring real-time post updates, user authentication, profile management, and more.
 
+Project Link: 
+
 🚀 Key Learnings
 🔧 Backend
   ✅ Setup of RESTful API routes and modular controllers
@@ -45,8 +47,6 @@ A full-stack Twitter clone application built with the MERN stack (MongoDB, Expre
 ![Screenshot 2025-04-19 134437](https://github.com/user-attachments/assets/2f565433-523a-4c74-bbef-001fbfe2dd4d)
 
 
-Feed Page	Profile Page
-💡 (Add your actual screenshots in a screenshots folder)
 
 ⚙️ Tech Stack
 Frontend: React, Tailwind CSS, DaisyUI, React Router, React Query, useMutation 
