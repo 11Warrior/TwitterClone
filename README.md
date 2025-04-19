@@ -1,16 +1,55 @@
-Twitter clone developed using MERN stack
 
-**Key Learnings:**
--Backend :
-  setting up routes and controller as well as using protectRoute middleware to protect route at backend
-  authentication and authorization using jwt tokens with cookies
-  using bcrypt to hash the password
-  setting up mongoose and using mongodb to fetch, alter or delete collections
-  Testing backend apis using postman
+🐦 Twitter Clone - MERN Stack
+A full-stack Twitter clone application built with the MERN stack (MongoDB, Express, React, Node.js) featuring real-time post updates, user authentication, profile management, and more.
 
--Frontend:
-  using QueryClients for refetching the state 
-  mutation function for updating the UI seamlessly
-  using daisy UI along with Tailwind CSS for styling the UI component
+🚀 Key Learnings
+🔧 Backend
+✅ Setup of RESTful API routes and modular controllers
 
-Mostly the backend part is done frontend is done by filling out necessary functions in Skeleton structure or using AI
+✅ Implemented JWT Authentication with cookies
+
+✅ Used bcrypt for password hashing and security
+
+✅ Added middleware for route protection (protectRoute)
+
+✅ CRUD operations using Mongoose and MongoDB
+
+✅ API testing with Postman
+
+💻 Frontend
+✅ Integrated with React Query for data fetching & cache management
+
+✅ Used mutations for real-time UI updates
+
+✅ Styled using Tailwind CSS + DaisyUI for component library
+
+✅ Utilized Skeleton UIs for seamless loading states
+
+✅ Enhanced and completed logic using AI-powered suggestions
+
+🧠 Features
+🔐 User Signup / Login
+
+📝 Create / Like / Delete Posts
+
+👤 Follow / Unfollow Users
+
+🖼️ Update Profile / Cover Image
+
+🌐 Public Profile Viewing
+
+💬 Real-time Feed Updates
+
+📸 Screenshots
+
+Feed Page	Profile Page
+💡 (Add your actual screenshots in a screenshots folder)
+
+⚙️ Tech Stack
+Frontend: React, Tailwind CSS, DaisyUI, React Router, React Query
+
+Backend: Node.js, Express.js, MongoDB, Mongoose
+
+Authentication: JWT, HTTP-Only Cookies
+
+Dev Tools: Postman, Vite, ESLint
