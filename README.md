@@ -41,9 +41,10 @@ A full-stack Twitter clone application built with the MERN stack (MongoDB, Expre
 💬 Real-time Feed Updates
 
 📸 Screenshots
+![Screenshot 2025-04-19 134437](https://github.com/user-attachments/assets/9225f86d-cde5-4e2d-bef1-82dd079ea268)
 
-Feed Page	Profile Page
-💡 (Add your actual screenshots in a screenshots folder)
+
+
 
 ⚙️ Tech Stack
 Frontend: React, Tailwind CSS, DaisyUI, React Router, React Query
