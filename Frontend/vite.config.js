@@ -7,7 +7,7 @@ export default defineConfig({
   server:{
     proxy: {
       "/api" :{
-        target: "http://localhost:8000",
+        target: "https://twitterclone-backend-4hsh.onrender.com",//for deployment otherwise https://twitter-clone:port
         changeOrigin: true
       }
     }
