@@ -8,9 +8,9 @@ const Posts = ({feedType}) => {
 
 	const feedEndPoint = () => {
 		if (feedType === "following") {
-			return "/api/posts/postsOfFollowed"
+			return `${import.meta.env.VITE_API_BASE_URL}/posts/postsOfFollowed`
 		}
-		return "/api/posts/allPosts"
+		return `${import.meta.env.VITE_API_BASE_URL}/posts/allPosts`
 	}
 
 	const {data: posts, isLoading, refetch, isRefetching} = useQuery({

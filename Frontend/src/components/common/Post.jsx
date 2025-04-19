@@ -20,7 +20,7 @@ const Post = ({ post }) => {
 
 	const { mutate: likeFunction, isPending } = useMutation({
 		mutationFn: async () => {
-			const res = await fetch(`/api/posts/likeUnlikePost/${post._id}`, {
+			const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/posts/likeUnlikePost/${post._id}`, {
 				method: "POST",
 				credentials: "include",
 			});
@@ -48,7 +48,7 @@ const Post = ({ post }) => {
 
 	const handleDeletePost = async () => {
 		try {
-			await fetch(`/api/posts/delete/${post._id}`, {
+			await fetch(`${import.meta.env.VITE_API_BASE_URL}/posts/delete/${post._id}`, {
 				method: "POST",
 				credentials: "include",
 			});
@@ -59,7 +59,7 @@ const Post = ({ post }) => {
 	};
 	const { mutate: commentFunction, isPending: isCommenting } = useMutation({
 		mutationFn: async () => {
-			const res = await fetch(`/api/posts/comment/${post._id}`, {
+			const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/posts/comment/${post._id}`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

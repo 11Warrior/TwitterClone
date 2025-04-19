@@ -31,7 +31,7 @@ const ProfilePage = () => {
 		queryKey: ["userProfile", userName],
 		queryFn: async () => {
 			try {
-				const res = await fetch(`/api/users/profile/${userName}`);
+				const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/profile/${userName}`);
 				const data = await res.json();
 				if (!res.ok) {
 					throw new Error(data.error || "Something went wrong");
@@ -71,7 +71,7 @@ const ProfilePage = () => {
 		queryKey: ['userPosts', user?.userName],
 		enabled: !!user?.userName, 
 		queryFn: async () => {
-			const res = await fetch(`/api/posts/userPosts/${user.userName}`);
+			const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/posts/userPosts/${user.userName}`);
 			if (!res.ok) throw new Error("Failed to fetch posts");
 			const data = await res.json();
 			return data;

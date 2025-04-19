@@ -10,7 +10,7 @@ const NotificationPage = () => {
 		queryKey: ['notifications'],
 		queryFn: async () => {
 			try {
-				const res = await fetch('/api/notifications')//get method
+				const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/notifications`)//get method
 				const data = await res.json()
 				return data
 			} catch (error) {
@@ -24,7 +24,7 @@ const NotificationPage = () => {
 
 	async function deleteNotifications() {
 		try {
-			const res = await fetch('/api/notifications', {
+			const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/notifications`, {
 				method: "DELETE"
 			})
 			const data = await res.json();
