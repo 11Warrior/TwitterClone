@@ -80,7 +80,7 @@ const ProfilePage = () => {
 								</Link>
 								<div className='flex flex-col'>
 									<p className='font-bold text-lg'>{user?.fullName}</p>
-									<span className='text-sm text-slate-500'>{Posts?.length} posts</span>
+									<span className='text-sm text-slate-500'>{Posts?.length == 0 ? Posts?.length : 0} posts</span>
 								</div>
 							</div>
 							{/* COVER IMG */}
